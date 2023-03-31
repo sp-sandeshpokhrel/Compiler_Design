@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+  <title>FAQ</title>
+  
+  <style type="text/css">
+    table.faq-table {text-align: left; width: 400px;}
+    p.question {font-weight: bold;}
+    p.answer {}
+    li {margin-left: 1em;}
+  </style>
+</head>
+
+<body>
+  <h1>FAQ</h1>
+
+  <p>
+    <!-- These shouldn't be direct links -->
+    <a href="/MainFolder/DocumentPage.php?course=Compilers&amp;doc=docs/faq.html#general">General Questions</a><br>
+    <a href="/MainFolder/DocumentPage.php?course=Compilers&amp;doc=docs/faq.html#video">Video Lecture Questions</a><br>
+    <a href="/MainFolder/DocumentPage.php?course=Compilers&amp;doc=docs/faq.html#pa1">Programming Assignment 1 Questions</a><br>
+    <a href="/MainFolder/DocumentPage.php?course=Compilers&amp;doc=docs/faq.html#pa2">Programming Assignment 2 Questions</a><br>
+    <a href="/MainFolder/DocumentPage.php?course=Compilers&amp;doc=docs/faq.html#pa3">Programming Assignment 3 Questions</a><br>
+    <a href="/MainFolder/DocumentPage.php?course=Compilers&amp;doc=docs/faq.html#pa4">Programming Assignment 4 Questions</a><br>
+    <a href="/MainFolder/DocumentPage.php?course=Compilers&amp;doc=docs/faq.html#pa5">Programming Assignment 5 Questions</a><br>
+    <a href="/MainFolder/DocumentPage.php?course=Compilers&amp;doc=docs/faq.html#opt">Optimizer Questions</a><br>
+  </p>
+  
+  <br><a name=general></a><h3>General Questions</h3>
+
+  <p class="question">Q. What is the purpose of this page?</p>
+  <p>A. This page is a list of the most frequently asked questions received by
+  the staff for the programming assignments. If you have a question regarding
+  specification or implementation details of the assignments, you should check
+  this FAQ page for an answer.</p>
+  
+  <p class="question">Q. What do I do when I have a question?
+  <p class="answer">A. A couple of places to look for help: 
+  <ul>
+    <li> - Check this page for the answer</li>
+    <li> - Re-read the assignment handout to see if it addresses the question</li>
+    <li> - Look through the comments of the source code files we have provided for relevant comments</li>
+    <li> - Look at our sample output (if appropriate)</li>
+    <li> - The <a href="/MainFolder/DocumentPage.php?course=Compilers&amp;doc=docs/other_materials.html">Other Materials</a> page has some links to references and documentation</li>
+  </ul></p>
+
+  <p class="question">Q. How can I run the reference compiler?
+  <p class="answer">A. Try</p>
+  <pre>    $ [cool root]/bin/coolc test.cl</pre>
+  <p>where <tt>[cool root]</tt> is the root directory of your copy of the programming assignment source tree.</p>
+
+  <p class="question">Q. How do I execute the program using SPIM?
+  <p class="answer">A. Try</p>
+  <pre>    $ [cool root]/bin/spim -f test.s</pre>
+  <p>where <tt>[cool root]</tt> is the root directory of your copy of the programming assignment source tree.</p>
+
+  <br><a name=video></a><h3>Video Lecture Questions</h3>
+
+  <p class="question">Q. Why does the play/pause button sometimes stop working
+  during quiz questions?</p>
+  <p>A. We've had intermittent issues with the OpenClassroom video applet used
+  on this site. Occasionally the play/pause button will stop working, usually
+  during a quiz question. This can sometimes be fixed by dragging the playhead
+  to a different time in the video, then pressing play again. If not, refreshing
+  the page is a surefire way to fix the problem (though you will lose your place
+  in the video).</p>
+
+  <br><a name=pa1></a><h3>Programming Assignment 1 Questions</h3>
+
+  <p>None at this time.</p>
+
+
+  <br><a name=pa2></a><h3>Programming Assignment 2 Questions</h3>
+
+  <p class="question">Q. How can I run the reference lexer?</p>
+  <p class="answer">A. Try</p>
+  <pre>    $ [cool root]/bin/lexer test.cl</pre>
+  <p>where <tt>[cool root]</tt> is the root directory of your copy of the programming assignment source tree.</p>
+  
+  <p class="question">Q. Do I report errors by printing on the console?</p>
+  <p class="answer">A. No, you do not report error messages by outputting to the console. In Flex, you can report errors like this:</p>
+  <pre>    yylval.error_msg = "EOF in comment";</pre>
+  <p>and in JLex, you report them like this:</p>
+  <pre>    return new Symbol(TokenConstants.ERROR, "EOF in comment");</pre>
+
+  <p class="question">Q. How do I write the null character to a file for testing?</p>
+  <p class="answer">A. This depends on the editor you use.  In VI, you can write the null character as "Ctrl-V Ctrl-@"; in Emacs try "C-q 000".</p>
+
+  <p class="question">Q. What do you mean by nested comments? Is <tt>(* (* Hello *)</tt> a valid nested comment?</p>
+  <p class="answer">A. No, each <tt>(*</tt> should be matched by a closing <tt>*)</tt>.</p>
+
+
+  <br><a name=pa3></a><h3>Programming Assignment 3 Questions</h3>
+
+  <p class="question">Q. How can I run the reference parser?</p>
+  <p class="answer">A. Try</p>
+  <pre>    $ [cool root]/bin/lexer test.cl | [cool root]/bin/parser</pre>
+  <p>where <tt>[cool root]</tt> is the root directory of your copy of the programming assignment source tree.</p>
+
+  <p class="question">Q. The let construct described in the Cool manual allows binding multiple variables in one let expression; but the let constructor defined in the starter code allows binding only one variable. How can we handle binding multiple variables? 
+  <p class="answer">A. You should treat  the expression</p>
+  <pre>    let x:T1&lt;-e1, y:T2&lt;-e2 in e3</pre>
+  <p>the same as</p>
+  <pre>    let x:T1&lt;-e1 in (let y:T2&lt;-e2 in e3)</pre><br>
+
+
+  <br><a name=pa4></a><h3>Programming Assignment 4 Questions</h3>
+
+  <p class="question">Q. How can I run the reference semantic analyzer?</p>
+  <p class="answer">A. Try</p>
+  <pre>    $ [cool root]/bin/lexer test.cl | [cool root]/bin/parser | [cool root]/bin/semant</pre>
+  <p>where <tt>[cool root]</tt> is the root directory of your copy of the programming assignment source tree.</p>
+
+  <p class="question">Q. How can I run the debugger on my semantic analyzer?</p>
+  <p class="answer">A. Try</p>
+  <pre>    $ [cool root]/bin/lexer test.cl | [cool root]/bin/parser &gt; temp.txt
+    $ gdb ./semant</pre>
+  <p>where <tt>[cool root]</tt> is the root directory of your copy of the programming assignment source tree. In GDB type</p>
+  <pre>    run &lt; temp.txt</pre><br>
+  
+  <br><a name=pa5></a><h3>Programming Assignment 5 Questions</h3>
+
+  <p>None at this time.</p>
+
+  <br><a name=opt></a><h3>Optimizer Questions</h3>
+  
+  <p class="question">Q. When should I do the optimizer?</p>
+  <p class="answer">A. You should, under no circumstances, start on the optimizer before you finish your code generator.</p>
+
+  <p class="question">Q. I plan to do the extra credit assignment. Is it a good idea to convert the AST to a low-level intermediate representation that I can take advantage of in both the code generator and the optimizer?</p>
+  <p class="answer">A. No, that would not be a good idea. We recommend that you completely finish your code generator before you do invest any time and effort into the extra credit assignment.</p>
+
+  <p class="question">Q. Could you give us some specific suggestions about what kinds of optimizations might have a large impact on Cool programs?</p>
+  <p class="answer">A.  The most important improvement you can make in Cool code is to unbox integers.  No other optimization will make much difference unless you improve the integer representation first.</p>
+
+  </p>"Unboxing" a value means storing it as a raw value rather than an
+   object.  Integers in Cool are boxed by default&mdash;they live inside of a
+   "box" (the object) and can only be gotten out by dereferencing a
+   pointer.  An unboxed integer, in contrast, is an integer held in a
+   register or stored directly on the stack (not as part of an object).</p>
+
+
+   <p>There are two complications in unboxing integers.  First, you will now
+   have different kinds of representations that the generated code must
+   deal with; you have to know when something is an integer and when it is
+   an object.  Second, the garbage collector will have the same
+   problem&mdash;you can't have integers that look like pointers anywhere that
+   the garbage collector might stumble across them.   In particular, you
+   can't just store unboxed integers in the stack without somehow telling
+   the garbage collector that they are not pointers.</p>
+
+   <p>For problem 1, you can use the type system to help you out.  Maintain
+   the following invariant: any expression of type Int is represented by an
+   unboxed integer; any expression of any other type is represented by an
+   object.  The only problem is when type <tt>Int</tt> is implicitly or explicitly
+   cast to type <tt>Object</tt>, or vice-versa.  For example, in a method call, the
+   actual parameter might be of type <tt>Int</tt> and the formal parameter might be
+   of type <tt>Object</tt>.  Similarly, a case expression might downcast a value of
+   type <tt>Object</tt> to <tt>Int</tt>.  There are other places in the language where such a
+   conversion can happen, but you can find them all by looking for uses of
+   subtyping in the type checking rules.  Whenever a value of static type Int is
+   converted to a value of static type <tt>Object</tt>, 
+   you will have to produce code that boxes the integer (allocates an
+   integer object and stores the unboxed integer inside it).  Similarly,
+   when a case downcasts an <tt>Object</tt> to type <tt>Int</tt>, you need to unbox the
+   integer: load the integer value in the object into the accumulator.</p>
+
+
+   <p>For problem 2, you can either tag integers stored in the stack, or you
+   can store the unboxed integers somewhere other than the stack.  There
+   are several ways you could do this.</p>
+
+   <p>The first solution is  used widely in Lisp and functional language
+   implementations.  The low order bit of an unboxed pointer or integer is
+   reserved as a tag: if it is 0 the word is a pointer, if it is 1 the word
+   is an integer.  For pointers that is the end of the story; they function
+   just as usual.  For integers, the upper 31 bits are the integer value.
+   To do arithmetic operations, the simplest thing is to shift each
+   argument right to get rid of the low order bit, do the op, and then left
+   shift 1 bit and or in the tag bit.  So, for example, <tt>c = a * b</tt>,
+   where <tt>a</tt>, <tt>b</tt>, and <tt>c</tt> are all registers, would
+   translate to<p>
+
+<pre>
+    shiftr a 1
+    shiftr b 1
+    mul c a b
+    shiftl c 1
+    or c #0001
+</pre>
+
+  <p>and an add  of the form <tt>c = a + b</tt> can be translated into a
+   two instruction sequence:</p>
+
+<pre>
+    and a  #FFFE
+    add c a b
+</pre>
+
+   <p>These values can be saved in the stack and the garbage collector will
+   ignore them since they do not look like pointers.  The downsides of this
+   approach are the slower than optimal instruction sequences and the fact
+   that you now have only 31 bit integers, which is a problem sometimes in
+   practice.  If you take this approach please document it and we won't
+   penalize you for test cases that appear to fail due to the limited
+   integer range.</p>
+
+   <p>Another, non-standard, approach would be to simply box integers that get
+   stored in the stack&mdash;saving an integer into the stack is a coercion
+   that allocates an object, just like those introduced by subtyping <tt>Int ->
+   Object</tt>.  This preserves the full range of integers and all programs will
+   work as expected.</p>
+
+   <p>A third approach would be to allocate a separate stack just for integer
+   values in an area not touched by the garbage collector.  The only space
+   readily available for that is the global data area, so that stack would
+   need to be fixed size.  For non-recursive procedures, or for integers
+   that do no survive across function calls, you could just pre-allocate
+   memory for every int the procedure uses.  For recursive procedures you
+   would have to do something different, presumably saving a (boxed)
+   integer in the regular stack.</p>
+
+
+</body>
+</html>

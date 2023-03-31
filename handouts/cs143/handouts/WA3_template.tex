@@ -1,0 +1,262 @@
+\documentclass[11pt]{article}
+\usepackage[pdftex]{graphicx, color}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{ebproof}
+
+\headheight 8pt \headsep 20pt \footskip 30pt
+\textheight 9in \textwidth 6.5in
+\oddsidemargin 0in \evensidemargin 0in
+\topmargin -.35in
+
+\lstset{basicstyle=\small\ttfamily,breaklines=true,numbers=left}
+
+\begin{document}
+\begin{center}
+\LARGE CS143 Compilers 2020 - Written Assignment 3 \\
+\large Due Tuesday, May 26, 2020 at 11:59 PM
+\end{center}
+
+This assignment covers semantic analysis, including scoping and type systems. You may discuss this assignment with other students and work on the problems together. However, your write-up should be your own individual work, and you should indicate in your submission who you worked with, if applicable. Assignments can be submitted electronically through Gradescope as a PDF by Tuesday, May 17, 2016 11:59 PM PDT. A \LaTeX \ template for writing your solutions is available on the course website.
+
+\begin{enumerate}
+  % Problem 1
+  \item Consider the following Cool programs:
+  \begin{enumerate}
+  \begin{lstlisting}
+    class A {
+        x: A; -- line 2
+        baz() : A {{x <- new A; x;}}; -- line 3
+        bar(): A {new A}; -- line 4
+        foo(): String {"World!"};
+    }; 
+    class B inherits A {
+        foo() : String {" "};
+    };
+    
+    class C inherits A {
+        foo() : String {"Hello,"};
+    };
+    
+    class Main {
+        main (): Object {
+            let io : IO <- new IO, b : B <- new B, c : C <- new C in {{
+                io.out_string (c.baz().foo());
+                io.out_string(b.baz().baz().foo());
+                io.out_string (b.bar().baz().foo());
+            }} 
+        };
+    };
+    
+  \end{lstlisting}
+        \item \item What does this code currently print? By changing only the A types on at most lines 2, 3, and 4 to get this program to print "Hello, World!".  \\
+        % Your Answer here
+        \newpage
+  \begin{lstlisting}
+  class Main {
+    main (): Object {
+        let io : IO <- new IO, x : Int <- 1 in {
+        {io.out_int (x);
+         let x : Int < - 5 in {{
+            (* x <- YOUR CODE HERE ;*)
+            io.out_int (x);
+          }};
+          if x == 0 then io.out_string ("x") else io.out_int (x) fi;
+        }}
+    };
+  };
+  \end{lstlisting}
+  \item Can you replace (* x <- YOUR CODE HERE ;*) with at most one line of code containing an assignment to x that gets this code to print "10x"? Why or why not?
+  \end{enumerate}\\
+        % Your Answer here
+        \newpage
+  % Problem 2
+  \item Type derivations are expressed as inductive proofs in the form of trees of logical expressions. For example, the following is the type derivation for $O[Int/y] \vdash y + y: Int$: \\
+  
+  \begin{center}
+  \begin{prooftree} 
+        \Hypo[]{O[Int/y](y) = Int}
+        \Infer1[]{O[Int/y],M,C \vdash y:Int}
+        \Hypo[]{O[Int/y](y) = Int}
+        \Infer1[]{O[Int/y],M,C \vdash y:Int}
+        \Infer2[]{O[Int/y],M,C \vdash y+y:Int}
+  \end{prooftree} 
+  \end{center}
+  
+  
+  Consider the following Cool program fragment:
+  
+  \begin{lstlisting}
+    class A {
+        i: Int;
+        j: Int;
+        b: Bool;
+        s: String;
+        o: SELF_TYPE;
+        foo(): SELF_TYPE { o };
+        bar(): Int { 2 * i + j - i / j - 3 * j };
+    };
+    class B inherits A {
+       p: SELF_TYPE;
+       baz(a: Int, b:Int): Bool { a = b };
+       test(c: Object): Object { (* [Placeholder C] *) };
+    };
+  \end{lstlisting}
+  
+  Note that the environments $O$ and $M$ at the start of the method test(...) are as follows:
+  $$ O = \emptyset[\mbox{Int}/i][\mbox{Int}/j][\mbox{Bool}/b][\mbox{String}/s][\mbox{SELF\_TYPE}_B/o][\mbox{SELF\_TYPE}_B/p][\mbox{Object}/c][\mbox{SELF\_TYPE}_B/self]$$
+  $$ M = \emptyset[(\mbox{SELF\_TYPE})/(A,foo)][(\mbox{Int})/(A,bar)][(\mbox{Int,Int,Bool})/(B,baz)][(\mbox{Object})/(B,test)]$$
+  
+  For each of the following expressions replacing [Placeholder C], provide the type derivation and final type of the expression, if it is well typed, otherwise explain why it isn't. Assume Cool type rules (you may omit subtyping relationships from the rules when the type is the same, e.g. $\mbox{Bool} \leq \mbox{Bool}$). 
+  
+  \begin{enumerate}
+    \item  \ 
+    \begin{lstlisting} 
+        b <- p.baz(p.bar(),i)
+    \end{lstlisting} \\
+        % Your Answer here
+        
+        \newpage
+    \item  \ 
+    \begin{lstlisting}
+        p <- o.foo()
+    \end{lstlisting}\\
+        % Your Answer here
+        
+        \newpage
+    \item  \ 
+    \begin{lstlisting}
+        b <- baz(i+j,p.bar(i,o.foo()))
+    \end{lstlisting}\\
+        % Your Answer here
+        \newpage
+    \item   \ 
+    \begin{lstlisting}
+        case c of
+            s: Int => s;
+            i: String => j;
+            b: Object => i;
+        esac
+    \end{lstlisting}
+  \end{enumerate}\\
+        % Your Answer here
+    \newpage
+  
+
+  % Problem 3
+  \item Consider the following Cool program:
+   \begin{lstlisting}
+    class A {
+        i: Int <- 1;
+        foo(): Int {i};
+    };
+    class B inherits A {
+        baz(): Int {{i <- 2 + i; i;}};
+    };
+    class C inherits B {
+        baz(): Int {{i <- 3 + i; i;}};
+    };
+    class Main {
+        main(): Object {
+            let a : A <- new C, io: IO <- new IO, j : Int in {{
+                j <- a@B.baz() + a.baz() + a.foo();
+                io.out_int (j); -- print statement
+            }}
+        };
+    };
+    \end{lstlisting}
+    \begin{enumerate}
+        \item This code does not compile. Provide a complete but succinct explanation as to why that is the case. Please note that the error message of coolc does not count as an explanation, your answer must show that you understand the problem. \\
+        % Your Answer here
+        \newpage
+        \item Assume you are given a variant of Cool which is dynamically typed instead of statically typed. Would the behavior of the code above be safe, in the sense of not triggering a runtime type error, in such variant of Cool? Why or why not? If it is safe, what would the print statement output?
+
+    \end{enumerate} \\
+        % Your Answer here
+        \newpage
+  % Problem 4
+  \item  Consider the following extension to the Cool syntax as given on page 16 of the Cool Manual, which adds arrays to the language:
+  
+  \begin{equation}
+    \begin{split}
+      \mbox{expr} &::= \mbox{new} \ \mbox{TYPE}[\ \mbox{expr} \ ] \\
+        &\mid \mbox{expr}[\ \mbox{expr} \ ] \\
+        &\mid \mbox{expr}[\ \mbox{expr} \ ] \ <- \ \mbox{expr}
+    \end{split}
+  \end{equation}
+  
+  This adds a new type T[] for every type T in Cool, including the basic classes. Note that the entire hierarchy of array types still has Object as its topmost supertype. An array object can be initialized with an expression similar to ``my\_array:T[] $\leftarrow$ new T[n]'', where n is an Int indicating the size of the array. In the general case, any expression that evaluates to an Int can be used in place of n. Thereafter, elements in the array can be accessed as ``my\_array[i]'' and modified using a expression like ``my\_array[i] $\leftarrow$ value''.
+  
+  \begin{enumerate}
+    \item  Provide new typing rules for Cool which handle the typing judgments for: $O, M, C \vdash \mbox{new} \ \mbox{T}[\ e_1 \ ]$, $O, M, C \vdash e_1[\ e_2 \ ]$ and $O, M, C \vdash e_1[\ e_2 \ ] \ <- \ e_3$. Make sure your rules work with subtyping.\\
+        % Your Answer here
+        \newpage
+    \item  Consider the following subtyping rule for arrays: \\
+    \begin{center}
+      \begin{prooftree} 
+            \Hypo[]{T_1 \leq T_2}
+            \Infer1[]{T_1[\ ] \leq T_2[\ ]}
+      \end{prooftree} 
+    \end{center}
+    This rule means that $T_1[\ ] \leq T_2[\ ]$ whenever it is the case that $T_1 \leq T_2$, for any pair of types $T_1$ and $T_2$.
+    
+    While plausible on first sight, the rule above is incorrect, in the sense that it doesn't preserve Cool's type safety guarantees. Provide an example of a Cool program (with arrays added) which would type check when adding the above rule to Cool's existing type rules, yet lead to a type error at runtime.\\
+        % Your Answer here
+        \newpage
+    
+    \item In the format of the subtyping rule given above, provide the least restrictive rule for the relationship between array types (i.e. under which conditions is it true that $T_1[ ] \leq T'$ for a certain $T'$ or $T'' \leq T_1[ ]$ for a certain $T''$?) which preserves the soundness of the type system. The rule you introduce must not allow assignments between non-array types that violate the existing subtyping relations of Cool.\\
+        % Your Answer here
+        \newpage
+    \item Add another extension to the language for immutable arrays (denoted by the type T()). Analogous to questions 4a and 4c, for this extension, provide: the additional syntax constructs to be added to the listing of page 16 of the Cool manual, the typing rules for these constructs and the least restrictive subtyping relationship involving these tuple types. It is not necessary that this extension interact correctly with mutable arrays as defined above, but feel free to consider that situation. \\
+        % Your Answer here
+        \newpage
+  \end{enumerate}
+  \newpage
+  % Problem 5
+  \item Consider the following assembly language used to program a stack (\textbf{r}, \textbf{r1}, and \textbf{r2} denote arbitrary registers):\\
+   \begin{lstlisting}
+    push r: copies the value of r and pushes it onto the stack.
+    top r: copies the value at the top of the stack into r. This command does not modify the stack.
+    pop: discards the value at the top of the stack.
+    r1 *= r2: multiplies r1 and r2 and saves the result in r1. r1 may be the same as r2.
+    r1 /= r2: divides r1 with r2 and saves the result in r1. r1 may be the same as r2. remainders are discarded (e.g., 5 / 2 = 2).
+    r1 += r2: adds r1 and r2 and saves the result in r1. r1 may be the same as r2.
+    r1 -= r2: subtracts r2 from r1 and saves the result in r1. r1 may be the same as r2.
+    jump r: jumps to the line number in r and resumes execution.
+    print r: prints the value in r to the console.
+  \end{lstlisting}
+  The machine has three registers available to the program: \textbf{reg1}, \textbf{reg2}, and \textbf{reg3}. The stack is permitted to grow to a finite, but very large, size. If an invalid line number is invoked, pop is executed on an empty stack, or the maximum stack size is exceeded, the machine crashes.
+  
+  \begin{enumerate}
+      \item Write code to enumerate the factorial number sequence, beginning with 1! (1, 2, 6, 24, ...), without termination. Assume that the code will be placed at line 100, and will be invoked by setting \textbf{reg1}, \textbf{reg2}, and \textbf{reg3} to 100, 1, and 1 respectively and running ‘\textbf{jump reg1}’. Your code should use the ‘\textbf{print}’ opcode to display numbers in the sequence. You may not hardcode constants nor use any other instructions besides the ones given above.\\
+        % Your Answer here
+        \newpage
+      \item This ‘helper’ function is placed at line 1000:
+      \begin{lstlisting}[firstnumber=1000]
+        push reg1
+        reg1 -= reg2
+        reg2 -= reg1
+        reg3 += reg2
+        top reg1
+        pop
+        jump reg1
+      \end{lstlisting}
+      This ‘main’ procedure is placed at line 2000:
+      \begin{lstlisting}[firstnumber=2000]
+        push reg1
+        push reg3
+        top reg1
+        top reg3
+        pop
+        pop
+        jump reg2
+        print reg3
+        jump reg2
+      \end{lstlisting}
+      \textbf{reg1}, \textbf{reg2}, and \textbf{reg3} are set to 0, 1000, and 2000 respectively, and ‘\textbf{jump reg3}’ is executed. What output does the program generate? Does it crash? If it does, suggest a one-line change to the helper function that results in a program that does not crash.
+  \end{enumerate}
+
+  
+  
+\end{enumerate}   
+\end{document}

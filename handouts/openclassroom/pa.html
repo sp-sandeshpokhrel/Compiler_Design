@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+  <title>Programming Assignments</title>
+  
+  <style type="text/css">
+    table.pa-table {text-align: left; width: 400px;}
+    td.binary-heading {vertical-align: top; width: 400px; font-weight: bold;}
+    td.top {vertical-align: top;}
+    td.assign-heading {vertical-align: top; width: 70px; font-weight: bold;}
+  </style>
+</head>
+
+<body>
+  <h1>Programming Assignments</h1>
+
+  <p>There are five programming assignments and one optional assignment for this course. To get started on the programming assignments, download and extract the starter code for your particular machine. The individual source files are also available individually, but we <strong>strongly</strong> recommend that you use the tarball if one is available for your architecture. Many of the source files you will use are actually linked from other directories in the tree&mdash;make sure not to disturb the overall structure of the source tree. You should extract the tarball into an empty directory in a convenient location; when the assignment documentation refers to <tt>[cool root]</tt> it is referring to this location.</p>
+
+  <p>
+    There are several dependancies you will need to get the programming assignments to work correctly. Specifically, you will need <tt>g++</tt>, <tt>csh</tt>, <tt>flex</tt>, and <tt>bison</tt>. If you are using Linux and have the <tt>apt</tt> package manager installed, you can get them all with a single command:
+    <pre>
+      sudo apt-get install g++ csh flex bison
+    </pre>
+    If you are completing the Java version of the assignments, you will also need <tt>javac</tt>, which you can install as follows:
+    <pre>
+      
+      sudo apt-get install openjdk-6-jdk
+    </pre>
+  </p>
+  
+  <table class="pa-table" border="1" cellpadding="1" cellspacing="1">
+    <tbody>
+      <tr>
+        <td class="binary-heading">Download</td>
+      </tr>
+
+      <tr><td><a href="src/pa.linux.i686.tar.gz">Linux (i686)</a> &mdash; compiled and tested on Ubuntu 10.04</td></tr>
+      <tr><td>Mac OS X (coming soon)</td></tr>
+      <tr><td><a href="pa_src.html">Download individual files</a> (coming soon)</td></tr>
+    </tbody>
+  </table>
+  
+  <p>Once you extract it, you will find the <tt>[cool root]</tt> directory is broken down into several subdirectories:
+    <table border="0" cellpadding="12" cellspacing="1">
+      <tbody>
+      <tr><td class="top"><tt>assignments</tt></td><td class="top"> &ndash; </td><td> The root working directory for each assignment can be found here. The <tt>README</tt> found in each of these directories will offer more information regarding each specific assignment, as will that assignment's handout.</td></tr>
+      <tr><td class="top"><tt>handouts</tt></td><td class="top"> &ndash; </td><td> This directory contains all of the assignment handouts, as well as documentation for the Cool programming language. These are the same handouts that can be found in the Handouts section of the course website.</td></tr>
+      <tr><td class="top"><tt>examples</tt></td><td class="top"> &ndash; </td><td> This directory contains many example programs written in the Cool programming language.</td></tr>
+      <tr><td class="top"><tt>bin</td><td class="top"> &ndash; </td><td> This directory contains the <tt>spim</tt>, <tt>xspim</tt>, and <tt>coolc</tt> binaries, compiled for your particular architecture. To be able to run these applications from any location. You may want to add the following lines to your <tt>.bashrc</tt> file:
+                <pre>
+                  
+        alias spim="[cool root]/bin/spim"
+        alias xspim="[cool root]/bin/xspim"
+        alias coolc="[cool root]/bin/coolc"</pre></td><td>
+      <tr><td class="top"><tt>etc</tt>, <tt>include</tt>, <tt>lib</tt>, <tt>src</tt></td><td class="top"> &ndash; </td><td> These directories contain various source and helper files that are used by the assignment makefiles, <tt>spim</tt>, and elsewhere. Many of these source files may be symbolically linked into the working directory for each programming assignment. You should not need to access these directories directly to complete the assignments.</td></tr>
+    </tbody>
+    </table>
+  </p>
+  
+
+
+
+
+
+
+</body>
+</html>

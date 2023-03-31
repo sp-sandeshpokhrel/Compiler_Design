@@ -1,0 +1,197 @@
+\documentclass[11pt]{article}
+\usepackage[pdftex]{graphicx, color}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{multicol}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\headheight 8pt \headsep 20pt \footskip 30pt
+\textheight 9in \textwidth 6.5in
+\oddsidemargin 0in \evensidemargin 0in
+\topmargin -.35in
+
+\lstset{basicstyle=\small\ttfamily,breaklines=true}
+
+\begin{document}
+\begin{center}
+%% Change this:
+\LARGE YOURNAME - SUNETID \\
+\Large CS143 2020 - Written Assignment 2 \\
+\large Due Monday, May 4, 2020 at 11:59 PM
+\end{center}
+
+% A pdf file can be generated from this by running
+% pdflatex -jobname=WA2_solved WA2_template.tex
+% Upload WA2_solved.pdf to GradeScope
+% to submit the assignment!
+
+\begin{enumerate}
+% Problem 1
+  \item  Give the context-free grammar (CFG) for each of the following languages. Any grammar is acceptable - including ambiguous grammars -  as long as it has the correct language.
+  \begin{enumerate}
+    \item The set of all strings over the alphabet $\{2, -, + \}$ representing valid arithmetic expressions where each integer in the expression is a single digit and the expression evaluates to some value $\geq$ 0. \\ 
+    Example Strings in the Language: 
+    \begin{center}
+     2+2 \tab \tab 2-2+2 \tab \tab -2-2+2+2   
+    \end{center}
+    Strings not in the Language: 
+    \begin{center}
+    +2 \tab \tab -2  \tab \tab -2+22 \tab \tab 2++2-2 \tab \tab $\epsilon$
+    \end{center}
+    \textbf{Answer:} 
+    %% Your answer here
+  
+  \newpage
+    \item The set of all strings over the alphabet $\{string|\ |\%s|arg|"|,\}$ representing valid arguments to the c printf() function. For the purposes of this problem, treat $string$ and $arg$ as tokens of your language where $string$ represents an arbitrary length sequence of characters [A-Z][a-z] and $arg$ represents any arbitrary char*. printf() replaces each $\%s$ with the contents of arg. For instance, printf("Test $\%s$ $\%s$", foo, bar) will print "Test (contents of foo) (contents of bar)". See \href{http://www.cplusplus.com/reference/cstdio/printf/}{the c printf() documentation} for further detail. Although printf() ignores unused args, your grammar should produce strings \textbf{with an equal number of \%s and arg tokens}. Note that ',' and ' ' are in the alphabet. \\ \\ 
+    Example Strings in the Language (surrounded by printf() for clarity, do not inclue printf() in the grammar): 
+    \begin{center}
+    printf( $""$ ) \tab \tab  printf($"string\ \%s\%s", arg, arg$) \\  printf($"\tab \%s \tab stringstring\tab"\tab,arg$\tab)
+    \end{center}
+    Strings not in the Language (surrounded by printf() for clarity, do not inclue printf() in the grammar): 
+    \begin{center}
+    printf($"\%s"$)  \tab printf($"arg \ string"$)  \tab printf($string \ \%s , \ arg$)
+    \end{center} 
+    \textbf{Answer:} 
+    %% Your answer here
+  
+  \newpage
+    \item  The set of all strings over the alphabet $\{0, 1\}$ in the language $L:\{0^i1^j0^k \mid j \leq i + k\}$. \\ 
+    Example Strings in the Language: 
+    \begin{center}
+    00000 \tab \tab 000111100  \tab \tab $\epsilon$ 
+    \end{center}
+    Strings not in the Language: 
+    \begin{center}
+    1   \tab \tab 000111101
+    \end{center}
+    \textbf{Answer:} 
+    %% Your answer here
+  
+  \newpage
+    \item The set of all strings over the alphabet $\{[,],\{,\},,\}$ which are sets. We define a set to be a collection of zero or more comma-separated arrays enclosed in an open brace and a close brace. Similarly, we define an array to be a collection of zero or more comma-separated sets enclosed in an open bracket and a close bracket. \textbf{Note} that "," is in the alphabet.\\
+    Example Arrays:
+    \begin{center}
+    $[\{\},\{\}]$\tab $[]$ \tab $[\{[],[]\}]$   
+    \end{center}
+    Example Sets:
+    \begin{center}
+    $\{[]\}$ \tab $\{\}$ \tab $\{[\{\}], []\}$  
+    \end{center}
+    Example Strings in the Language: 
+    \begin{center}
+    $\{\}$\tab $\{[],[\{[]\}]\}$\tab $\{[\{\}, \{\}, \{\}],[]\}$   
+    \end{center}
+    Strings not in the Language: 
+    \begin{center}
+    []  \tab \tab $\{\{\}\}$ \tab \tab $\{[[]]\}$
+    \end{center}
+
+    \textbf{Answer:} 
+    %% Your answer here
+  \end{enumerate}
+  
+  \newpage
+  
+  % Problem 2
+  \item \begin{enumerate}
+      \item Left factor the following grammar:
+        \begin{equation*}
+        \begin{split}
+          S &\to I \mid I-J \mid I+K  \\
+          I &\to (J-K) \mid (J)  \\
+          J &\to K1 \mid K2 \\
+          K &\to K3 \mid \epsilon 
+        \end{split}
+      \end{equation*}
+    \textbf{Answer:} 
+    %% Your answer here
+    
+    
+    \newpage
+      \item Eliminate left recursion from the following grammar:
+        \begin{equation*}
+        \begin{split}
+          S &\to STS \mid ST \mid T  \\
+          T &\to Ta \mid Tb \mid U\\
+          U &\to T \mid c \\
+        \end{split}
+      \end{equation*}
+  \end{enumerate}
+  \textbf{Answer:} 
+  %% Your answer here
+  
+  
+  \newpage
+  % Problem 3
+  \item Consider the following CFG, where the set of terminals is $\{a, b, \#, \%, !\}$:
+  \begin{equation*}
+    \begin{split}
+      S &\to \%aT\mid U!\\
+      T &\to aS \mid baT \mid \epsilon \\
+      U &\to \#aTU \mid \epsilon \\
+    \end{split}
+  \end{equation*}
+  \begin{enumerate}
+    \item Construct the FIRST sets for each of the nonterminals.\\
+    \textbf{Answer:} 
+    %% Your answer here 
+    
+    \newpage
+    \item Construct the FOLLOW sets for each of the nonterminals.  \\
+    \textbf{Answer:} 
+    %% Your answer here 
+    
+    \newpage
+     \item  Construct the LL(1) parsing table for the grammar.\\
+    \textbf{Answer:} 
+    %% Your answer here 
+    
+    \newpage
+    \item Show the sequence of stack, input and action configurations that occur during an LL(1) parse of the string “\#abaa\%aba!”. At the beginning of the parse, the stack should contain a single S.\\
+    \textbf{Answer:} 
+    %% Your answer here 
+
+  \newpage
+  \end{enumerate}
+  % Problem 4
+  \item What advantage does left recursion have over right recursion in shift-reduce parsing?\\
+\textbf{Hint:} Consider left and right recursive grammars for the language a*. What happens if your input has a million a’s? \\
+    \textbf{Answer:} 
+    %% Your answer here 
+    
+    \newpage   
+  % Problem 5
+  \item Consider the Following Grammar G over the alphabet $\Sigma$ = $\{a,b,c\}$:
+  \begin{equation*}
+    \begin{split}
+      S' &\to S \\
+      S &\to Aa \\
+      S &\to Bb \\
+      A &\to Ac \\
+      A &\to \epsilon\\
+      B &\to Bc \\
+      B &\to \epsilon \\
+    \end{split}
+  \end{equation*}
+You want to implement G using an SLR(1) parser (note that we have already added the S' $\to$ S production for you). \begin{enumerate}
+    \item Construct the first state of the LR(0) machine, compute the FOLLOW sets of A and B, and point out the conflicts that prevent the grammar from being SLR(1) \\
+    \textbf{Answer:} 
+    %% Your answer here 
+    
+    \newpage
+    \item Show modifications to production 4 (A $\to$ Ac) and production 6 (B $\to$ Bc) that make the grammar SLR(1) while having the same language as the original grammar G. Explain the intuition behind this result.\\
+    \textbf{Answer:} 
+    %% Your answer here 
+    
+
+\end{enumerate}
+\end{enumerate}
+\end{document}
