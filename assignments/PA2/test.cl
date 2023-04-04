@@ -34,7 +34,7 @@ class CellularAutomaton inherits IO {
             cell(position - 1)
         fi
     };
-   
+  
     cell_right_neighbor(position : Int) : String {
         if position = num_cells() - 1 then
             cell(0)
